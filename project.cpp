@@ -242,6 +242,8 @@ player_data query_the_tree_by_id(int begin_id, int end_id){
 }
 
 bool update_player_data(player_data new_player_data){
+    
+    bool check = false;
 
     if(new_player_data.player_id < 0 || new_player_data.player_id > reached_index){
         cerr<<"Invalid Player ID"<<endl;
@@ -251,11 +253,13 @@ bool update_player_data(player_data new_player_data){
     else{
 
         player_data p1(new_player_data.score,new_player_data.player_id,new_player_data.finish_time);
-        bool check = update(root_node,0,max_num_of_players-1,p1);
+         check = update(root_node,0,max_num_of_players-1,p1);
         return check;
     }
+    return check;  
 }
 
 };
 
 int segment_tree :: reached_index = -1;
+
