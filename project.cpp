@@ -19,17 +19,23 @@ public :
     {}
 
     static player_data best_player(const player_data &a, const player_data &b) {
+        if(a.score == -1 && b.score == -1) {return player_data();} //no players
+        
+        if(a.score == -1) {return b;}
 
-        if(a.score>b.score){return a;}
+        if(b.score == -1) {return a;}
+
+        if(a.score > b.score) {return a;}
         else if (b.score > a.score) {return b;}
         else {
 
-            if(a.finish_time>b.finish_time){return a;}
-            else if (b.finish_time > a.finish_time) {return b;}
+            if(a.finish_time < b.finish_time) {return a;}
+            else if (b.finish_time < a.finish_time) {return b;}
             else {
 
-                if(a.player_id>b.player_id){return a;}
+                if(a.player_id > b.player_id) {return a;}
                 else if (b.player_id > a.player_id) {return b;}
+                // no duplication allowed in player registration for the ID
                 else {cerr<< "Error : Player is registered twice"<<endl;
                     return a;
                 }
@@ -69,7 +75,7 @@ private:
 
 tree_node * root_node ; 
 int max_num_of_players;
-static int reached_index;
+int reached_index ; // cannot be global , due multible instances of the segment tree will make indexing wrong
 
 void insert_helper_function(tree_node* &node ,int left ,int right,int index,player_data data){
 
@@ -189,8 +195,9 @@ player_data query_by_index_helper(tree_node* &node, int left, int right,int star
 
 if(!node || end_id<left || start_id>right){return player_data();}
 
-if(start_id <=left && end_id >= right){
-    return node->p;}
+if(start_id <=left && right <= end_id){
+    return node->p;
+}
 
 
 int mid = (left + right) / 2;
@@ -206,13 +213,13 @@ public:
 
 segment_tree(int size) :
 root_node(0),max_num_of_players(size)
-{}
+{this->reached_index = -1;} // initialize reached_index to -1
 
 void insert_into_tree(player_data p){
 
-    reached_index++;
-    player_data p1(p.score,reached_index,p.finish_time);
-    return insert_helper_function(root_node,0,max_num_of_players-1,reached_index,p1);
+    this->reached_index++;
+    player_data p1(p.score,this->reached_index,p.finish_time);
+    return insert_helper_function(root_node,0,max_num_of_players-1,this->reached_index,p1);
 
 }
 // the tree is created by indices , not time ,thus complexity is close to O(n)
@@ -226,7 +233,7 @@ player_data query_the_tree_by_time(int start_time, int finish_time){
 }
 player_data query_the_tree_by_id(int begin_id, int end_id){
 
-    if(begin_id < 0 || end_id > reached_index){
+    if(begin_id < 0 || end_id > this->reached_index){
 
         cerr<<"Invalid ID "<<endl;
         return player_data();
@@ -245,7 +252,7 @@ bool update_player_data(player_data new_player_data){
     
     bool check = false;
 
-    if(new_player_data.player_id < 0 || new_player_data.player_id > reached_index){
+    if(new_player_data.player_id < 0 || new_player_data.player_id > this->reached_index){
         cerr<<"Invalid Player ID"<<endl;
         return false;
     }
@@ -261,5 +268,5 @@ bool update_player_data(player_data new_player_data){
 
 };
 
-int segment_tree :: reached_index = -1;
+//int segment_tree :: reached_index = -1;
 

@@ -1,0 +1,134 @@
+\doxysection{segment\+\_\+tree Class Reference}
+\hypertarget{classsegment__tree}{}\label{classsegment__tree}\index{segment\_tree@{segment\_tree}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsegment__tree_ab1e6c3703d87532143fdd9aad4a58106}{segment\+\_\+tree}} (int size)
+\begin{DoxyCompactList}\small\item\em Constructor for \doxylink{classsegment__tree}{segment\+\_\+tree}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classsegment__tree_a80b81e2b7e0c0a48a829b4e78c3b4140}{insert\+\_\+into\+\_\+tree}} (\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} p)
+\begin{DoxyCompactList}\small\item\em Inserts a \doxylink{classplayer__data}{player\+\_\+data} into the segment tree. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \mbox{\hyperlink{classsegment__tree_a17d907746fb32dafb831a0065c6b0bed}{query\+\_\+the\+\_\+tree\+\_\+by\+\_\+time}} (int start\+\_\+time, int finish\+\_\+time)
+\begin{DoxyCompactList}\small\item\em Queries the segment tree for the best player within a time range. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \mbox{\hyperlink{classsegment__tree_aa6979acab6b15c8fdd3e80c45d1c97dc}{query\+\_\+the\+\_\+tree\+\_\+by\+\_\+id}} (int begin\+\_\+id, int end\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Queries the segment tree by player ID range. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classsegment__tree_a376892ee2ccd499a3cb688a2a34ba8cb}{update\+\_\+player\+\_\+data}} (\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} new\+\_\+player\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Updates the player data in the segment tree. \end{DoxyCompactList}\item 
+\Hypertarget{classsegment__tree_ab1e6c3703d87532143fdd9aad4a58106}\label{classsegment__tree_ab1e6c3703d87532143fdd9aad4a58106} 
+{\bfseries segment\+\_\+tree} (int size)
+\item 
+\Hypertarget{classsegment__tree_a80b81e2b7e0c0a48a829b4e78c3b4140}\label{classsegment__tree_a80b81e2b7e0c0a48a829b4e78c3b4140} 
+void {\bfseries insert\+\_\+into\+\_\+tree} (\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} p)
+\item 
+\Hypertarget{classsegment__tree_a17d907746fb32dafb831a0065c6b0bed}\label{classsegment__tree_a17d907746fb32dafb831a0065c6b0bed} 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} {\bfseries query\+\_\+the\+\_\+tree\+\_\+by\+\_\+time} (int start\+\_\+time, int finish\+\_\+time)
+\item 
+\Hypertarget{classsegment__tree_aa6979acab6b15c8fdd3e80c45d1c97dc}\label{classsegment__tree_aa6979acab6b15c8fdd3e80c45d1c97dc} 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} {\bfseries query\+\_\+the\+\_\+tree\+\_\+by\+\_\+id} (int begin\+\_\+id, int end\+\_\+id)
+\item 
+\Hypertarget{classsegment__tree_a376892ee2ccd499a3cb688a2a34ba8cb}\label{classsegment__tree_a376892ee2ccd499a3cb688a2a34ba8cb} 
+bool {\bfseries update\+\_\+player\+\_\+data} (\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} new\+\_\+player\+\_\+data)
+\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{classsegment__tree_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsegment__tree_ab1e6c3703d87532143fdd9aad4a58106}\index{segment\_tree@{segment\_tree}!segment\_tree@{segment\_tree}}
+\index{segment\_tree@{segment\_tree}!segment\_tree@{segment\_tree}}
+\doxysubsubsection{\texorpdfstring{segment\_tree()}{segment\_tree()}}
+{\footnotesize\ttfamily \label{classsegment__tree_ab1e6c3703d87532143fdd9aad4a58106} 
+segment\+\_\+tree\+::segment\+\_\+tree (\begin{DoxyParamCaption}\item[{int}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Constructor for \doxylink{classsegment__tree}{segment\+\_\+tree}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The size of the segment tree. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classsegment__tree_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsegment__tree_a80b81e2b7e0c0a48a829b4e78c3b4140}\index{segment\_tree@{segment\_tree}!insert\_into\_tree@{insert\_into\_tree}}
+\index{insert\_into\_tree@{insert\_into\_tree}!segment\_tree@{segment\_tree}}
+\doxysubsubsection{\texorpdfstring{insert\_into\_tree()}{insert\_into\_tree()}}
+{\footnotesize\ttfamily \label{classsegment__tree_a80b81e2b7e0c0a48a829b4e78c3b4140} 
+void segment\+\_\+tree\+::insert\+\_\+into\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classplayer__data}{player\+\_\+data}}}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Inserts a \doxylink{classplayer__data}{player\+\_\+data} into the segment tree. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The \doxylink{classplayer__data}{player\+\_\+data} to insert. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsegment__tree_aa6979acab6b15c8fdd3e80c45d1c97dc}\index{segment\_tree@{segment\_tree}!query\_the\_tree\_by\_id@{query\_the\_tree\_by\_id}}
+\index{query\_the\_tree\_by\_id@{query\_the\_tree\_by\_id}!segment\_tree@{segment\_tree}}
+\doxysubsubsection{\texorpdfstring{query\_the\_tree\_by\_id()}{query\_the\_tree\_by\_id()}}
+{\footnotesize\ttfamily \label{classsegment__tree_aa6979acab6b15c8fdd3e80c45d1c97dc} 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} segment\+\_\+tree\+::query\+\_\+the\+\_\+tree\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{int}]{begin\+\_\+id}{, }\item[{int}]{end\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Queries the segment tree by player ID range. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em begin\+\_\+id} & The start ID of the player range. \\
+\hline
+{\em end\+\_\+id} & The end ID of the player range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The \doxylink{classplayer__data}{player\+\_\+data} representing the best player within the ID range. 
+\end{DoxyReturn}
+\Hypertarget{classsegment__tree_a17d907746fb32dafb831a0065c6b0bed}\index{segment\_tree@{segment\_tree}!query\_the\_tree\_by\_time@{query\_the\_tree\_by\_time}}
+\index{query\_the\_tree\_by\_time@{query\_the\_tree\_by\_time}!segment\_tree@{segment\_tree}}
+\doxysubsubsection{\texorpdfstring{query\_the\_tree\_by\_time()}{query\_the\_tree\_by\_time()}}
+{\footnotesize\ttfamily \label{classsegment__tree_a17d907746fb32dafb831a0065c6b0bed} 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} segment\+\_\+tree\+::query\+\_\+the\+\_\+tree\+\_\+by\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{start\+\_\+time}{, }\item[{int}]{finish\+\_\+time}{}\end{DoxyParamCaption})}
+
+
+
+Queries the segment tree for the best player within a time range. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\+\_\+time} & The start of the time range. \\
+\hline
+{\em finish\+\_\+time} & The end of the time range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The \doxylink{classplayer__data}{player\+\_\+data} representing the best player within the time range. 
+\end{DoxyReturn}
+\Hypertarget{classsegment__tree_a376892ee2ccd499a3cb688a2a34ba8cb}\index{segment\_tree@{segment\_tree}!update\_player\_data@{update\_player\_data}}
+\index{update\_player\_data@{update\_player\_data}!segment\_tree@{segment\_tree}}
+\doxysubsubsection{\texorpdfstring{update\_player\_data()}{update\_player\_data()}}
+{\footnotesize\ttfamily \label{classsegment__tree_a376892ee2ccd499a3cb688a2a34ba8cb} 
+bool segment\+\_\+tree\+::update\+\_\+player\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classplayer__data}{player\+\_\+data}}}]{new\+\_\+player\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+Updates the player data in the segment tree. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+player\+\_\+data} & The new \doxylink{classplayer__data}{player\+\_\+data} to update. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the update was successful, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Leader\+Board.\+hpp\item 
+project.\+cpp\end{DoxyCompactItemize}

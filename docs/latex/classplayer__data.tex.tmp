@@ -1,0 +1,85 @@
+\doxysection{player\+\_\+data Class Reference}
+\hypertarget{classplayer__data}{}\label{classplayer__data}\index{player\_data@{player\_data}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classplayer__data_a752ca599cc2a2f7a92b49ca838610ab5}{player\+\_\+data}} ()
+\item 
+\mbox{\hyperlink{classplayer__data_a2481a3449fe13db54d57b0cafb8d31b6}{player\+\_\+data}} (int \mbox{\hyperlink{classplayer__data_aa08166d2b717be0f06e952f042dbb0f9}{score}}, int \mbox{\hyperlink{classplayer__data_ae47c748c90bed2cba02d7bf8b21d6160}{player\+\_\+id}}, int \mbox{\hyperlink{classplayer__data_a86e6b4954448c495885a8584574959a9}{finish\+\_\+time}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \mbox{\hyperlink{classplayer__data_a81e902efa5c509eb547d8c97ef2a56da}{best\+\_\+player}} (const \mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \&a, const \mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \&b)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classplayer__data_aa08166d2b717be0f06e952f042dbb0f9}{score}}
+\item 
+int \mbox{\hyperlink{classplayer__data_ae47c748c90bed2cba02d7bf8b21d6160}{player\+\_\+id}}
+\item 
+int \mbox{\hyperlink{classplayer__data_a86e6b4954448c495885a8584574959a9}{finish\+\_\+time}}
+\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{classplayer__data_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classplayer__data_a752ca599cc2a2f7a92b49ca838610ab5}\index{player\_data@{player\_data}!player\_data@{player\_data}}
+\index{player\_data@{player\_data}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{player\_data()}{player\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classplayer__data_a752ca599cc2a2f7a92b49ca838610ab5} 
+player\+\_\+data\+::player\+\_\+data (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+% FIG 0
+\Hypertarget{classplayer__data_a2481a3449fe13db54d57b0cafb8d31b6}\index{player\_data@{player\_data}!player\_data@{player\_data}}
+\index{player\_data@{player\_data}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{player\_data()}{player\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classplayer__data_a2481a3449fe13db54d57b0cafb8d31b6} 
+player\+\_\+data\+::player\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{score}{, }\item[{int}]{player\+\_\+id}{, }\item[{int}]{finish\+\_\+time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\label{doc-func-members}
+\Hypertarget{classplayer__data_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classplayer__data_a81e902efa5c509eb547d8c97ef2a56da}\index{player\_data@{player\_data}!best\_player@{best\_player}}
+\index{best\_player@{best\_player}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{best\_player()}{best\_player()}}
+{\footnotesize\ttfamily \label{classplayer__data_a81e902efa5c509eb547d8c97ef2a56da} 
+\mbox{\hyperlink{classplayer__data}{player\+\_\+data}} player\+\_\+data\+::best\+\_\+player (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \&}]{a}{, }\item[{const \mbox{\hyperlink{classplayer__data}{player\+\_\+data}} \&}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+
+
+\label{doc-variable-members}
+\Hypertarget{classplayer__data_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classplayer__data_a86e6b4954448c495885a8584574959a9}\index{player\_data@{player\_data}!finish\_time@{finish\_time}}
+\index{finish\_time@{finish\_time}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{finish\_time}{finish\_time}}
+{\footnotesize\ttfamily \label{classplayer__data_a86e6b4954448c495885a8584574959a9} 
+int player\+\_\+data\+::finish\+\_\+time}
+
+\Hypertarget{classplayer__data_ae47c748c90bed2cba02d7bf8b21d6160}\index{player\_data@{player\_data}!player\_id@{player\_id}}
+\index{player\_id@{player\_id}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{player\_id}{player\_id}}
+{\footnotesize\ttfamily \label{classplayer__data_ae47c748c90bed2cba02d7bf8b21d6160} 
+int player\+\_\+data\+::player\+\_\+id}
+
+\Hypertarget{classplayer__data_aa08166d2b717be0f06e952f042dbb0f9}\index{player\_data@{player\_data}!score@{score}}
+\index{score@{score}!player\_data@{player\_data}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily \label{classplayer__data_aa08166d2b717be0f06e952f042dbb0f9} 
+int player\+\_\+data\+::score}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{project_8cpp}{project.\+cpp}}\end{DoxyCompactItemize}

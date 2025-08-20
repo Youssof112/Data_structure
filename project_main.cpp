@@ -1,4 +1,4 @@
-#include "project1.cpp"
+#include "project.cpp"
 
 
 int main() {
