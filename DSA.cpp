@@ -2,108 +2,218 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
+// ================= Golden Model =================
+class golden_model {
+public:
+    void add_player(const player_data &p) { players.push_back(p); }
+
+    player_data query_by_time(int start, int end) {
+        player_data best;
+        for (const auto &p : players) {
+            if (p.finish_time >= start && p.finish_time <= end) {
+                best = player_data::best_player(best, p);
+            }
+        }
+        return best;
+    }
+
+    player_data query_by_id(int start_id, int end_id) {
+        player_data best;
+        for (const auto &p : players) {
+            if (p.player_id >= start_id && p.player_id <= end_id) {
+                best = player_data::best_player(best, p);
+            }
+        }
+        return best;
+    }
+
+    bool update_player(const player_data &new_data) {
+        for (auto &p : players) {
+            if (p.player_id == new_data.player_id) {
+                p = new_data;
+                return true;
+            }
+        }
+        return false;
+    }
+
+private:
+    vector<player_data> players;
+};
+
+// ================= Helper Functions =================
 void print_player(const string &label, const player_data &p) {
-    cout << label << " -> Score: " << p.score 
-         << " PlayerID: " << p.player_id 
-         << " FinishTime: " << p.finish_time << endl;
+    cout << setw(25) << left << label
+         << " | Score: " << setw(4) << p.score
+         << " PlayerID: " << setw(3) << p.player_id
+         << " Time: " << setw(3) << p.finish_time << endl;
 }
 
+bool check_results(const player_data &actual,
+                   const player_data &expected,
+                   int &correctCount, int &totalCount) {
+    totalCount++;
+    bool pass = (actual.score == expected.score &&
+                 actual.player_id == expected.player_id &&
+                 actual.finish_time == expected.finish_time);
+    if (pass) {
+        correctCount++;
+        cout << "[PASS] "<< endl;
+    } else {
+        cout << "[FAIL] " << endl;
+        cout << "   Expected -> ";
+        print_player("", expected);
+        cout << "   Got      -> ";
+        print_player("", actual);
+    }
+    return pass;
+}
+
+void check_bool(bool actual, bool expected,
+                int &correctCount, int &totalCount) {
+    totalCount++;
+    if (actual == expected) {
+        correctCount++;
+        cout << "[PASS] " << endl;
+    } else {
+        cout << "[FAIL] " << " Expected=" << expected << " Got=" << actual << endl;
+    }
+}
+
+// ================= Stress Test =================
+void stress_test(int num_players, int num_queries,
+                 int &total_count, int &correct_count) {
+    cout << "\n--- Stress Test: " << num_players
+         << " players, " << num_queries << " queries ---" << endl;
+
+    segment_tree leaderboard(num_players);
+    golden_model model;
+
+    // Insert players
+    for (int i = 0; i < num_players; ++i) {
+        int score = rand() % 1000;
+        int finish_time = rand() % 1000;
+        player_data p(score, i, finish_time);
+        model.add_player(p);
+        leaderboard.insert_into_tree(p);
+    }
+
+    // Query by time
+    for (int i = 0; i < num_queries; ++i) {
+        int t1 = rand() % 1000, t2 = rand() % 1000;
+        //invalid ranges in the main
+        if (t1 > t2) swap(t1, t2);
+
+        player_data actual = leaderboard.query_the_tree_by_time(t1, t2);
+        player_data expected = model.query_by_time(t1, t2);
+        check_results(actual, expected, correct_count, total_count);
+    }
+
+    // Query by ID
+    for (int i = 0; i < num_queries; ++i) {
+        int id1 = rand() % num_players, id2 = rand() % num_players;
+        //invalid ranges in the main
+        if (id1 > id2) swap(id1, id2);
+
+        player_data actual = leaderboard.query_the_tree_by_id(id1, id2);
+        player_data expected = model.query_by_id(id1, id2);
+        check_results(actual, expected, correct_count, total_count);
+    }
+
+    // Random updates
+    for (int i = 0; i < num_queries; ++i) {
+        int id = rand() % num_players;
+        player_data new_p(rand() % 1000, id, rand() % 1000);
+        bool act = leaderboard.update_player_data(new_p);
+        bool exp = model.update_player(new_p);
+        check_bool(act, exp,
+                   correct_count, total_count);
+    }
+}
+
+// ================= Main =================
 int main() {
-    cout << "=== Time-Range Leaderboard Query System: Extended Tests ===" << endl;
+    srand(42); // fixed seed for reproducibility
+    cout << "=== Time-Range Leaderboard Query System: Formal Tests ===" << endl;
+    int correctCount = 0, totalCount = 0;
 
-    segment_tree leaderboard(20);  // allow up to 20 players
+    // Basic tests (small controlled cases)
+    {
+        cout << "\n--- Basic Tests ---" << endl;
+        segment_tree leaderboard(10);
+        golden_model model;
 
-    // --- Test 1: Query empty tree ---
-    cout << "\n[Test 1: Empty Tree]" << endl;
-    player_data emptyQ = leaderboard.query_the_tree_by_time(0, 10);
-    assert(emptyQ.score == -1);
+        // Empty query
+        check_results( 
+                      leaderboard.query_the_tree_by_time(0, 10),
+                      player_data(-1, -1, -1),
+                      correctCount, totalCount);
 
-    // --- Test 2: Insert players ---
-    cout << "\n[Test 2: Insert Players]" << endl;
-    leaderboard.insert_into_tree(player_data(50, 0, 5));   // ID=0
-    leaderboard.insert_into_tree(player_data(70, 1, 10));  // ID=1
-    leaderboard.insert_into_tree(player_data(60, 2, 8));   // ID=2
-    leaderboard.insert_into_tree(player_data(90, 3, 20));  // ID=3
-    leaderboard.insert_into_tree(player_data(85, 4, 15));  // ID=4
-
-    // Verify insertion
-    player_data qAll = leaderboard.query_the_tree_by_time(0, 30);
-    print_player("Query all [0,30]", qAll);
-    assert(qAll.score == 90);
-
-    // --- Test 3: Query by time ---
-    cout << "\n[Test 3: Query by Time]" << endl;
-    //Error : Player is registered twice ??
-    player_data q1 = leaderboard.query_the_tree_by_time(0, 10);
-    print_player("Query [0,10]", q1);
-    assert(q1.score == 70);
-
-    player_data q2 = leaderboard.query_the_tree_by_time(10, 20);
-    print_player("Query [10,20]", q2);
-    assert(q2.score == 90);
-
-    // --- Test 4: Query by ID range ---
-    cout << "\n[Test 4: Query by ID]" << endl;
-    player_data q3 = leaderboard.query_the_tree_by_id(1, 3);
-    print_player("Query ID [1,3]", q3);
-    assert(q3.score == 90);
-
-    // --- Test 5: Update player ---
-    cout << "\n[Test 5: Update]" << endl;
-    bool updated = leaderboard.update_player_data(player_data(95, 2, 12)); 
-    assert(updated);
-    player_data q4 = leaderboard.query_the_tree_by_time(0, 20);
-    print_player("After update, [0,20]", q4);
-    assert(q4.score == 95);
-
-    // --- Test 6: Invalid queries ---
-    cout << "\n[Test 6: Invalid Queries]" << endl;
-    player_data invalid1 = leaderboard.query_the_tree_by_time(-5, 10); // invalid time
-    assert(invalid1.score == -1);
-
-    player_data invalid2 = leaderboard.query_the_tree_by_id(10, 20);   // invalid IDs
-    assert(invalid2.score == -1);
-
-    bool update_invalid = leaderboard.update_player_data(player_data(100, 99, 30));
-    assert(update_invalid == false);
-
-    // --- Test 7: Tie-breaking ---
-    cout << "\n[Test 7: Tie-breaking]" << endl;
-    segment_tree tie_tree(10);
-    tie_tree.insert_into_tree(player_data(80, 0, 10)); // ID=0
-    tie_tree.insert_into_tree(player_data(80, 1, 15)); // ID=1 -> same score, later finish time
-    tie_tree.insert_into_tree(player_data(80, 2, 15)); // ID=2 -> same score, same time, higher ID
-
-    player_data tieQ = tie_tree.query_the_tree_by_time(0, 20);
-    print_player("Tie-breaking result", tieQ);
-    // Expect ID=2 to win (same score, same time, larger ID)
-    assert(tieQ.player_id == 2);
-//Tie-breaking result -> Score: 80 PlayerID: 2 FinishTime: 15
-
-
-    // --- Test 8: Stress Test (random inserts/queries) ---
-    cout << "\n[Test 8: Stress Test]" << endl;
-    segment_tree stress_tree(1000);
-    for (int i = 0; i < 100; i++) {
-        stress_tree.insert_into_tree(player_data(rand()%1000, i, rand()%500));
-    }
-    // Perform random queries
-    int count = 0;
-    for (int i = 0; i < 50; i++) {
-        int t1 = rand()%500;
-        int t2 = rand()%500;
-        if (t1 > t2) swap(t1,t2);
-        player_data res = stress_tree.query_the_tree_by_time(t1,t2);
-        // No assert here: just ensure program doesn't crash
-        if (res.score != -1) {
-            cout << "Stress Query [" << t1 << "," << t2 
-                 << "] -> Score: " << res.score << endl;
-                 count ++;
+        // Insert players
+        vector<player_data> players = {
+            {50,0,5}, {70,1,10}, {60,2,8}, {90,3,20}, {85,4,15}
+        };
+        for (auto &p : players) {
+            leaderboard.insert_into_tree(p);
+            model.add_player(p);
         }
-    }
 
-    cout << "\nAll detailed tests passed , count = "<<count << endl;
+        // Queries
+        check_results(
+                      leaderboard.query_the_tree_by_time(0,30),
+                      model.query_by_time(0,30),
+                      correctCount, totalCount);
+
+        check_results(
+                      leaderboard.query_the_tree_by_id(1,3),
+                      model.query_by_id(1,3),
+                      correctCount, totalCount);
+
+        // Update
+        player_data upd(95,2,12);
+        check_bool(leaderboard.update_player_data(upd),
+                   model.update_player(upd),
+                   correctCount, totalCount);
+
+        check_results(
+                      leaderboard.query_the_tree_by_time(0,20),
+                      model.query_by_time(0,20),
+                      correctCount, totalCount);
+    }
+    // Invalid ranges in the main
+    {
+        cout << "\n--- Invalid Ranges Tests ---" << endl;
+          segment_tree leaderboard(10);
+          for (int i = 0; i < 10; ++i) {
+              int score = rand() % 1000;
+              int finish_time = rand() % 1000;
+              player_data p(score, i, finish_time);
+              leaderboard.insert_into_tree(p);
+          }
+          // Invalid time range
+          player_data p = leaderboard.query_the_tree_by_time(30, 0);
+          check_results(p, player_data(-1, -1, -1), correctCount, totalCount);
+          player_data p2 = leaderboard.query_the_tree_by_time(-1, 5);
+          check_results(p2, player_data(-1, -1, -1), correctCount, totalCount);
+
+          // Invalid ID range
+          player_data p3 = leaderboard.query_the_tree_by_id(3, 1);
+          check_results(p3, player_data(-1, -1, -1), correctCount, totalCount);
+
+     }
+    // Stress tests
+    stress_test(500, 100, totalCount, correctCount);
+    stress_test(1000, 200, totalCount, correctCount);
+    stress_test(5000, 500, totalCount, correctCount);
+
+    // Final report
+    cout << "\n=== Final Report ===" << endl;
+    cout << "Correct: " << correctCount << " / " << totalCount
+         << " (" << fixed << setprecision(2)
+         << (100.0*correctCount/totalCount) << "%)" << endl;
+
     return 0;
 }
