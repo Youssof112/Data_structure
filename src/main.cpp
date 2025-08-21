@@ -8,13 +8,17 @@
 #include <QMessageBox>
 #include <QGroupBox>
 #include <QString>
+#include <QTableWidget>
+#include <QHeaderView>
 #include "project.cpp"  // Put your existing code in this header file
+#include <vector>
 
 class LeaderboardGUI : public QWidget {
     Q_OBJECT
 
 private:
     segment_tree tree;
+    QTableWidget *tableWidget; // Promoted to a class member
 
     // Insert inputs
     QLineEdit *scoreInput;
@@ -42,6 +46,17 @@ public:
 
         QVBoxLayout *mainLayout = new QVBoxLayout;
 
+        QHBoxLayout *table = new QHBoxLayout;
+        QHBoxLayout *fields = new QHBoxLayout;
+
+        // --- Table Layout ---
+        tableWidget = new QTableWidget; // Initialize the member widget
+        tableWidget->setColumnCount(3);
+        tableWidget->setHorizontalHeaderLabels({"Player ID", "Score", "Finish Time"});
+        tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers); // Make table read-only
+        tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); // Make columns fit window
+        table->addWidget(tableWidget);
+
         // --- Insert Section ---
         QGroupBox *insertBox = new QGroupBox("Insert Player");
         QVBoxLayout *insertLayout = new QVBoxLayout;
@@ -52,7 +67,7 @@ public:
         insertLayout->addWidget(finishTimeInput);
         insertLayout->addWidget(insertButton);
         insertBox->setLayout(insertLayout);
-        mainLayout->addWidget(insertBox);
+        fields->addWidget(insertBox);
 
         // --- Query by Time Section ---
         QGroupBox *queryTimeBox = new QGroupBox("Query Top Player by Time");
@@ -64,7 +79,7 @@ public:
         queryTimeLayout->addWidget(endTimeInput);
         queryTimeLayout->addWidget(queryTimeButton);
         queryTimeBox->setLayout(queryTimeLayout);
-        mainLayout->addWidget(queryTimeBox);
+        fields->addWidget(queryTimeBox);
 
         // --- Query by ID Section ---
         QGroupBox *queryIdBox = new QGroupBox("Query Top Player by ID");
@@ -76,7 +91,7 @@ public:
         queryIdLayout->addWidget(endIdInput);
         queryIdLayout->addWidget(queryIdButton);
         queryIdBox->setLayout(queryIdLayout);
-        mainLayout->addWidget(queryIdBox);
+        fields->addWidget(queryIdBox);
 
         // --- Update Section ---
         QGroupBox *updateBox = new QGroupBox("Update Player");
@@ -90,9 +105,12 @@ public:
         updateLayout->addWidget(updateFinishInput);
         updateLayout->addWidget(updateButton);
         updateBox->setLayout(updateLayout);
-        mainLayout->addWidget(updateBox);
+        fields->addWidget(updateBox);
 
         // Set layout
+        mainLayout->addLayout(table);
+        mainLayout->addLayout(fields);
+
         setLayout(mainLayout);
 
         // --- Connect Buttons ---
@@ -102,6 +120,28 @@ public:
         connect(updateButton, &QPushButton::clicked, this, &LeaderboardGUI::onUpdatePlayer);
     }
 
+private:
+    void refreshTable() {
+        tableWidget->clearContents();
+        tableWidget->setRowCount(0);
+
+        vector<player_data> all_players = tree.get_all_players();
+        tableWidget->setRowCount(all_players.size());
+
+        int row = 0;
+        for (const auto& player : all_players) {
+            // Create non-editable table items
+            QTableWidgetItem *idItem = new QTableWidgetItem(QString::number(player.player_id));
+            QTableWidgetItem *scoreItem = new QTableWidgetItem(QString::number(player.score));
+            QTableWidgetItem *timeItem = new QTableWidgetItem(QString::number(player.finish_time));
+
+            tableWidget->setItem(row, 0, idItem);
+            tableWidget->setItem(row, 1, scoreItem);
+            tableWidget->setItem(row, 2, timeItem);
+            row++;
+        }
+    }
+
 private slots:
     void onInsertPlayer() {
         int score = scoreInput->text().toInt();
@@ -109,6 +149,7 @@ private slots:
 
         tree.insert_into_tree(player_data(score, -1, finishTime));
         QMessageBox::information(this, "Insert Success", "Player inserted successfully!");
+        refreshTable();
     }
 
     void onQueryByTime() {
@@ -145,8 +186,10 @@ private slots:
         int newFinish = updateFinishInput->text().toInt();
 
         bool ok = tree.update_player_data(player_data(newScore, id, newFinish));
-        if (ok)
+        if (ok) {
+            refreshTable();
             QMessageBox::information(this, "Update Success", "Player updated successfully!");
+        }
         else
             QMessageBox::warning(this, "Update Failed", "Invalid player ID or update failed.");
     }

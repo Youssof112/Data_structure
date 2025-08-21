@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -240,6 +241,30 @@ private:
         return player_data::best_player(left_player, right_player);
     }
 
+    // Helper function to recursively collect player data
+    void collect_all_players(tree_node *node, vector<player_data> &players)
+    {
+        if (!node)
+        {
+            return;
+        }
+
+        // Base case: if it's a leaf node where actual player data is stored
+        if (node->l == node->r)
+        {
+            // Check if it's a valid player before adding
+            if (node->p.player_id != -1)
+            {
+                players.push_back(node->p);
+            }
+            return;
+        }
+
+        // Recursively traverse left and right children
+        collect_all_players(node->left_ptr, players);
+        collect_all_players(node->right_ptr, players);
+    }
+
 public:
     segment_tree(int size) : root_node(0), max_num_of_players(size)
     {
@@ -303,5 +328,13 @@ public:
         }
 
         return check;
+    }
+
+    // New public function to get all players
+    vector<player_data> get_all_players()
+    {
+        vector<player_data> players;
+        collect_all_players(root_node, players);
+        return players;
     }
 };
