@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <QGroupBox>
 #include <QString>
-#include <iostream>
 #include "project.cpp"  // Put your existing code in this header file
 
 class LeaderboardGUI : public QWidget {
